@@ -19,3 +19,12 @@ Route::prefix('admin')->name('admin.')->group(function(){
     Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{post}', [PostController::class,'destroy'])->name('posts.destroy');
 });
+
+// Auth routes
+Route::get('/login',function () {
+    return view('auth.login');
+})->name('auth.login');
+
+Route::get('/register',function(){
+    return view('auth.register');
+})->name('auth.register');
