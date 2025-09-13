@@ -21,9 +21,9 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'name' => 'requred|string|between:2,100',
-            'email' => 'requred|string|email|max:100|unique:users',
-            'password' => 'requred|string|min:64|max64', //SHA-256 hash 64 karakter
+            'name' => 'required|string|between:2,100',
+            'email' => 'required|string|email|max:100|unique:users',
+            'password' => 'required|string|min:64|max:64', //SHA-256 hash 64 karakter
         ]);
 
         if($validator->fails()){
@@ -53,7 +53,7 @@ class AuthController extends Controller
     //Kullanıcı giriş
     public function login(Request $request)
     {
-        $validator = validator::make($request->all(),[
+        $validator = Validator::make($request->all(),[
             'email' => 'required|email',
             'password' => 'required|string|min:64|max:64', //SHA-256
         ]);
@@ -95,6 +95,48 @@ class AuthController extends Controller
     }
 
     //Kullanıcı çıkış
-    
+    public function logout()
+    {
+        try{
+            JWTAuth::invalidate(JWTAuth::getToken());
+            return response()->json([
+                'success' => true,
+                'message' => 'Successfully logged out'
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to logout'
+            ], 500);
+        }
+    }
+
+
+    //Token yenileme
+    public function refresh()
+    {
+        try{
+            $token = JWTAuth::refresh(JWTAuth::getToken());
+            return response()->json([
+                'success' => true,
+                'token' => $token
+            ]);
+        } catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message' => 'Token refresh failed'
+            ], 401);
+        }
+    }
+
+
+    //Kullanıcı profili
+    public function profile()
+    {
+        return response()->json([
+            'success' => true,
+            'user' => JWTAuth::user()
+        ]);
+    }
 
 }
