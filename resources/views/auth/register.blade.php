@@ -34,9 +34,8 @@
     </div>
 </div>
 
-<script type="module">
-import AuthService from '/js/auth.js';
-
+<script src="/js/auth.js"></script>
+<script>
 document.getElementById('registerForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -51,7 +50,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
         return;
     }
     
-    const result = await AuthService.register(name, email, password);
+    const result = await window.AuthService.register(name, email, password);
     
     if (result.success) {
         window.location.href = '/admin/posts';
@@ -61,4 +60,5 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
     }
 });
 </script>
+
 @endsection

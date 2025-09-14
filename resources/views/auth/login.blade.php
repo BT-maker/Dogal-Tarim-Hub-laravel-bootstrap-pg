@@ -30,9 +30,8 @@
     </div>
 </div>
 
-<script type="module">
-import AuthService from '/js/auth.js';
-
+<script src="/js/auth.js"></script>
+<script>
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -40,7 +39,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     const password = document.getElementById('password').value;
     const errorDiv = document.getElementById('error-message');
     
-    const result = await AuthService.login(email, password);
+    const result = await window.AuthService.login(email, password);
     
     if (result.success) {
         window.location.href = '/admin/posts';
@@ -50,4 +49,5 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     }
 });
 </script>
+
 @endsection
