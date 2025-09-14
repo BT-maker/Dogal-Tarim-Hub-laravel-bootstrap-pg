@@ -31,4 +31,94 @@ class AuthService{
 
 
     //Kayıt ol
+    async register(name, email, password){
+        const hashedPassword = await this.hashPassword(password);
+
+        try{
+            const response = await fetch(`${this.baseURL}/register`,{
+                method:'POST',
+                headers: this.getHeaders(),
+                body: JSON.stringify({
+                    name,
+                    email,
+                    password:hashedPassword
+                })
+            });
+
+            const data = await response.json();
+
+            if(data.success){
+                this.token = data.token;
+                localStorage.setItem('auth_token', this.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+            }
+
+            return data;
+        }catch(error){
+            return {success:false, message:'Network error'};
+        }
+    }
+
+    //Giriş yap
+    async login(email, password){
+
+        const hashedPassword = await this.hashPassword(password);
+
+        try{
+            const response = await fetch(`${this.baseURL}/login`,{
+                methos: 'POST',
+                headers: this.getHeaders(),
+                body: JSON.stringify({
+                    email,
+                    password: hashedPassword
+                })
+            });
+
+            const data = await response.json();
+
+            if(data.success){
+                this.token = data.token;
+                localStorage.setItem('auth_token', this.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+            }
+
+            return data;
+        }catch (error){
+            return{success: false, message: 'Network error'};
+        }
+        
+    }
+
+
+
+    //Çıkış yap
+    async logout(){
+        try{
+            await fetch(`${this.baseURL}/logout`,{
+                method: 'POST',
+                headers: this.getHeaders()
+            });
+        }catch (error){
+            console.log('Logout error:', error);
+        }
+
+        this.token = null;
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('user');
+    }
+
+    //Kullanıcı giriş yapmış mı?
+    isAuthenticated(){
+        return !!this.token;
+    }
+
+    //Kullanıcı bilgilerini al
+    getuser(){
+        const user = localStorage.getItem('user');
+        return user ? JSON.parse(user) : null;
+    }
 }
+
+//Global olarak kullanılabilir hale getir
+
+window.AuthService = new AuthService();
