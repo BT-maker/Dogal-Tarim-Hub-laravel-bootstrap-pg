@@ -50,14 +50,22 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
         return;
     }
     
-    const result = await window.AuthService.register(name, email, password);
-    
-    if (result.success) {
-        window.location.href = '/admin/posts';
-    } else {
-        errorDiv.textContent = result.message || 'Kayıt başarısız';
+    try{
+        const result = await window.AuthService.register(name, email, password);
+        
+        if (result.success) {
+            window.location.href = '/admin/posts';
+        } else {
+            errorDiv.textContent = result.message || 'Kayıt başarısız';
+            errorDiv.classList.remove('d-none');
+        }
+    }catch(error){
+        console.error('Register error:',error);
+        errorDiv.textContent = 'bağlantı hatası. lütfen tekrar deneyiniz';
         errorDiv.classList.remove('d-none');
     }
+
+    
 });
 </script>
 

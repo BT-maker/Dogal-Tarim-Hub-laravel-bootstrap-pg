@@ -64,28 +64,39 @@ class AuthService{
 
         const hashedPassword = await this.hashPassword(password);
 
-        try{
-            const response = await fetch(`${this.baseURL}/login`,{
-                methos: 'POST',
-                headers: this.getHeaders(),
-                body: JSON.stringify({
-                    email,
-                    password: hashedPassword
-                })
-            });
-
-            const data = await response.json();
-
-            if(data.success){
-                this.token = data.token;
-                localStorage.setItem('auth_token', this.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
-            }
-
-            return data;
-        }catch (error){
-            return{success: false, message: 'Network error'};
+         try {
+        const hashedPassword = await this.hashPassword(password);
+        console.log('Password hashed successfully');
+        
+        const requestData = {
+            email,
+            password: hashedPassword
+        };
+        console.log('Request data:', requestData);
+        
+        const response = await fetch(`${this.baseURL}/login`, {
+            method: 'POST',
+            headers: this.getHeaders(),
+            body: JSON.stringify(requestData)
+        });
+        
+        console.log('Response status:', response.status);
+        console.log('Response headers:', response.headers);
+        
+        const data = await response.json();
+        console.log('Response data:', data);
+        
+        if (data.success) {
+            this.token = data.token;
+            localStorage.setItem('auth_token', this.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
         }
+        
+        return data;
+    } catch (error) {
+        console.error('AuthService login error:', error);
+        return { success: false, message: 'Network error: ' + error.message };
+    }
         
     }
 

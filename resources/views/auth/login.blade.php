@@ -39,7 +39,10 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     const password = document.getElementById('password').value;
     const errorDiv = document.getElementById('error-message');
     
-    const result = await window.AuthService.login(email, password);
+    console.log('Login attemp',{email, password: password.substring(0,3)+ '...'});
+
+    try{
+        const result = await window.AuthService.login(email, password);
     
     if (result.success) {
         window.location.href = '/admin/posts';
@@ -47,6 +50,12 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         errorDiv.textContent = result.message || 'Giriş başarısız';
         errorDiv.classList.remove('d-none');
     }
+    }catch (error){
+        console.log('Login error',error);
+        error.textContent = ' Bağlantı hatası. Lütfen tekar deneyiniz';
+        errorDiv.classList.remove('d-none');
+    }
+    
 });
 </script>
 
