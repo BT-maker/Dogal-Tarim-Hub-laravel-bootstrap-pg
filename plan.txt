@@ -1,120 +1,130 @@
-🌱 Organik Tarım Blog Projesi
+🌱 Organik Tarım Blog Projesi - Güncellenmiş Plan
+
 📋 Proje Genel Bilgileri
-Proje Adı: "Yeşil Toprak" / "Organik Yaşam" / "Doğal Tarım Hub"
+Proje Adı: "Yeşil Toprak" 
 Hedef Kitle: Çiftçiler, hobi bahçıvanları, organik yaşam meraklıları
-Platform: Laravel + JWT Auth + Modern Frontend
-🎯 Ana Kategoriler
+Platform: Laravel 12 + JWT Auth + Bootstrap 5
+Geliştirme Süresi: 6-8 hafta (MVP)
+
+🎯 Ana Kategoriler (Basitleştirilmiş)
 1. Organik Tarım Teknikleri
-Toprak hazırlığı ve kompost yapımı
-Doğal gübre kullanımı
-Zararlılarla organik mücadele
-Su yönetimi ve sulama teknikleri
-Ekim-dikim takvimleri
-2. Ürün Yetiştirme Rehberleri
-Sebze yetiştirme (domates, salatalık, biber vb.)
-Meyve ağaçları bakımı
-Tahıl üretimi
-Aromatik bitkiler
-Mantarculuk
+   - Toprak hazırlığı ve kompost yapımı
+   - Doğal gübre kullanımı
+   - Zararlılarla organik mücadele
+   - Su yönetimi ve sulama teknikleri
+
+2. Sebze & Meyve Yetiştirme
+   - Sebze yetiştirme rehberleri
+   - Meyve ağaçları bakımı
+   - Aromatik bitkiler
+   - Ekim-dikim takvimleri
+
 3. Organik Sertifikasyon
-Sertifikasyon süreci
-Gerekli belgeler
-Kontrol kuruluşları
-Maliyet analizi
-Yasal düzenlemeler
-4. Pazarlama ve Satış
-Organik ürün pazarlama stratejileri
-Online satış kanalları
-Yerel pazarlar ve fuarlar
-Fiyatlandırma stratejileri
-Müşteri ilişkileri
+   - Sertifikasyon süreci
+   - Gerekli belgeler ve maliyet
+   - Kontrol kuruluşları
+
+4. Pazarlama & Satış
+   - Organik ürün pazarlama
+   - Online satış kanalları
+   - Yerel pazarlar ve fuarlar
+
 5. Sürdürülebilirlik
-Çevre dostu uygulamalar
-Enerji tasarrufu
-Atık yönetimi
-Biyoçeşitlilik
-İklim değişikliği
-🔧 Teknik Özellikler
-Mevcut Altyapı (Tamamlandı)
-✅ Laravel 12 + JWT Auth
-✅ UUID kullanıcı sistemi
-✅ SHA-256 + bcrypt güvenlik
-✅ API endpoints
-✅ Temel CRUD işlemleri
-Geliştirilecek Özellikler
-İçerik Yönetimi
-📝 Kategori sistemi (organik tarım odaklı)
-🏷️ Tag sistemi (#organik #kompost #zararlı vb.)
-📸 Çoklu görsel desteği (tarla fotoğrafları)
-📊 İçerik istatistikleri
-🔍 Gelişmiş arama (ürün, teknik, bölge bazlı)
-Kullanıcı Deneyimi
-👤 Yazar profilleri (tarım uzmanları)
-⭐ Makale değerlendirme sistemi
-💬 Yorum sistemi
-📧 Newsletter (mevsimlik tarım tavsiyeleri)
-📱 Mobil uyumlu tasarım
-Özel Özellikler
-📅 Tarım Takvimi: Ekim-dikim zamanları
-🌡️ Hava Durumu Entegrasyonu: Bölgesel tarım tavsiyeleri
-📍 Bölgesel İçerik: İl/bölge bazlı öneriler
-🧮 Hesaplama Araçları: Gübre miktarı, alan hesaplama
-📚 Rehber Kütüphanesi: PDF indirilebilir rehberler
-Topluluk Özellikleri
-🤝 Çiftçi Forumu: Soru-cevap bölümü
-📢 Duyuru Sistemi: Tarım fuarları, eğitimler
-🏆 Başarı Hikayeleri: Çiftçi deneyimleri
-📞 Uzman Danışmanlık: Randevu sistemi
-📊 Veritabanı Yapısı
-Yeni Tablolar
-categories (organik_tarım, sebze_yetistirme, sertifikasyon...)
-tags (organik, kompost, zararlı, sulama...)
-post_tags (many-to-many)
-post_images (çoklu görsel)
-weather_data (hava durumu cache)
-farming_calendar (tarım takvimi)
-user_locations (kullanıcı bölgeleri)
-expert_profiles (uzman profilleri)
+   - Çevre dostu uygulamalar
+   - Atık yönetimi
+   - Biyoçeşitlilik
+
+🔧 Teknik Durum
+✅ Tamamlanan Özellikler:
+- Laravel 12 + JWT Auth
+- UUID kullanıcı sistemi
+- SHA-256 + bcrypt güvenlik
+- API endpoints (register/login/logout)
+- Temel CRUD işlemleri
+- Bootstrap 5 UI framework
+
+📈 Geliştirme Fazları (Güncellenmiş)
+
+🚀 FAZ 1: Temel İçerik Sistemi (2 hafta)
+Öncelik: YÜKSEK
+- ✅ Auth sistemi (Tamamlandı)
+- 🔄 Kategori sistemi (5 ana kategori)
+- 🔄 Post-User ilişkisi (yazar sistemi)
+- 🔄 Post-Category many-to-many ilişkisi
+- 🔄 Temel admin paneli geliştirme
+- 🔄 Frontend tasarım (organik tema)
+
+📝 FAZ 2: İçerik Yönetimi (2 hafta)
+Öncelik: ORTA
+- Tag sistemi (#organik #kompost vb.)
+- Tek görsel upload (featured image)
+- Temel arama (başlık, içerik)
+- Kategori filtreleme
+- Mobil responsive tasarım
+
+👥 FAZ 3: Kullanıcı Etkileşimi (2 hafta)
+Öncelik: ORTA
+- Yorum sistemi
+- Basit beğeni/değerlendirme
+- Yazar profil sayfaları
+- Basit newsletter kayıt
+
 🎨 Tasarım Konsepti
-Renk Paleti
-🟢 Ana Renk: Doğa yeşili (#2D5016)
-🟤 İkincil: Toprak kahvesi (#8B4513)
-🟡 Vurgu: Güneş sarısı (#FFD700)
-⚪ Arka Plan: Temiz beyaz (#FFFFFF)
-Görsel Kimlik
-🌱 Logo: Filiz/yaprak temalı
-📸 Görseller: Gerçek tarla fotoğrafları
-🎨 İkonlar: Doğa temalı (yaprak, güneş, damla)
-📱 Layout: Temiz, okunabilir, mobil öncelikli
-📈 Geliştirme Aşamaları
-Faz 1: Temel İçerik Sistemi (2 hafta)
-Kategori sistemi
-Tag sistemi
-Çoklu görsel upload
-Temel arama
-Faz 2: Kullanıcı Deneyimi (2 hafta)
-Yorum sistemi
-Değerlendirme sistemi
-Kullanıcı profilleri
-Newsletter
-Faz 3: Özel Özellikler (3 hafta)
-Tarım takvimi
-Hava durumu entegrasyonu
-Hesaplama araçları
-Bölgesel içerik
-Faz 4: Topluluk & Optimizasyon (2 hafta)
-Forum sistemi
-SEO optimizasyonu
-Performance iyileştirmeleri
-Admin dashboard
-🎯 İçerik Stratejisi
-Başlangıç İçerikleri
-"Organik Tarıma Başlangıç Rehberi"
-"Kompost Yapımı: Adım Adım"
-"Doğal Zararlı Mücadelesi"
-"Organik Sertifikasyon Süreci"
-"Mevsimlik Ekim Takvimi"
-Düzenli İçerik Planı
-Haftalık: Mevsimsel tarım tavsiyeleri
-Aylık: Uzman röportajları
-Mevsimlik: Detaylı yetiştirme rehberleri
+Renk Paleti:
+- 🟢 Ana: Doğa yeşili (#2D5016)
+- 🟤 İkincil: Toprak kahvesi (#8B4513)
+- 🟡 Vurgu: Güneş sarısı (#FFD700)
+- ⚪ Arka Plan: Temiz beyaz (#FFFFFF)
+
+Teknoloji Stack:
+- Backend: Laravel 12, JWT Auth, MySQL
+- Frontend: Bootstrap 5, Vanilla JS
+- Tasarım: Responsive, mobil öncelikli
+
+📊 Veritabanı Yapısı (MVP)
+Mevcut Tablolar:
+✅ users (UUID, JWT auth)
+✅ posts (title, slug, content, excerpt, featured_image)
+✅ categories (boş - doldurulacak)
+
+Eklenecek Tablolar:
+🔄 post_categories (many-to-many)
+🔄 tags (name, slug)
+🔄 post_tags (many-to-many)
+🔄 comments (post_id, user_id, content)
+
+🚫 DIŞARDA BIRAKILAN ÖZELLİKLER (Gelecek versiyonlar için):
+- Hava durumu entegrasyonu
+- Hesaplama araçları (gübre, alan)
+- Forum sistemi
+- Uzman danışmanlık
+- PDF rehber sistemi
+- Bölgesel içerik filtreleme
+- Çoklu görsel upload
+- Gelişmiş arama (bölge bazlı)
+- Tarım takvimi
+- Duyuru sistemi
+
+🎯 MVP Hedefleri (6-8 hafta)
+1. ✅ Fonksiyonel auth sistemi
+2. 🔄 5 ana kategori ile içerik yönetimi
+3. 🔄 Yazar sistemi (post-user ilişkisi)
+4. 🔄 Temel arama ve filtreleme
+5. 🔄 Mobil uyumlu organik tarım teması
+6. 🔄 Gelişmiş admin paneli
+7. 🔄 Tag sistemi
+8. 🔄 Yorum sistemi
+
+📝 İçerik Stratejisi (Başlangıç)
+İlk 5 Makale:
+1. "Organik Tarıma Başlangıç Rehberi"
+2. "Kompost Yapımı: Adım Adım"
+3. "Doğal Zararlı Mücadelesi"
+4. "Organik Sertifikasyon Süreci"
+5. "Mevsimlik Ekim Takvimi"
+
+⏰ Sonraki Adım: Kategori sistemi geliştirme
+- Category model güncelleme
+- Post-Category ilişkisi
+- Admin panelinde kategori yönetimi
+- Frontend kategori filtreleme

@@ -17,7 +17,8 @@ class Post extends Model
         'excerpt',
         'featured_image',
         'is_published',
-        'published_at'
+        'published_at',
+        'user_id' //Yazar ID'si ekledik
     ];
 
     protected $casts =[
@@ -35,5 +36,18 @@ class Post extends Model
     {
         return $query->where('is_published',true)
                      ->where('published_at', '<=', now());
+    }
+
+
+    //Yazar ilişkisi (belongsTo)
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    //Kategoriler ilişkisi (many-to-many)
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'post_categories');
     }
 }
