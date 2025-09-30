@@ -19,6 +19,18 @@
       <label class="form-label">İçerik</label>
       <textarea name="content" class="form-control" rows="8">{{ old('content',$post->content) }}</textarea>
     </div>
+    <div class="col-12">
+      <label class="form-label">Kategoriler</label>
+      <select name="categories[]" class="form-select" multiple>
+        @foreach($categories as $category)
+          <option value="{{ $category->id }}" 
+            {{ in_array($category->id, old('categories', $post->categories->pluck('id')->toArray())) ? 'selected' : '' }}>
+            {{ $category->name }}
+          </option>
+        @endforeach
+      </select>
+      <div class="form-text">Birden fazla kategori seçebilirsiniz (Ctrl+Click)</div>
+    </div>
     <div class="col-12 form-check">
       <input class="form-check-input" type="checkbox" name="is_published" id="is_published" {{ old('is_published', $post->is_published) ? 'checked' : '' }}>
       <label class="form-check-label" for="is_published">Yayınla</label>

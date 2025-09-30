@@ -6,6 +6,8 @@ use App\Http\Controllers\PostController;
 //Anasayfa
 Route::get('/', [PostController::class, 'index'])->name('home');
 
+// Posts listesi
+Route::get('/posts', [PostController::class, 'posts'])->name('posts.index');
 
 // Post detay sayfası
 Route::get('/post/{post:slug}',[PostController::class, 'show'])->name('post.show');

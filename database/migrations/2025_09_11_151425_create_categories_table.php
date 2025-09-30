@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->text('description')->nullable();
+            $table->string('color', 7)->default('#2D5016'); // Hex color code
+            $table->string('icon')->nullable(); // Font Awesome icon class
             $table->timestamps();
         });
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -13,6 +14,17 @@ class PostController extends Controller
         $posts = Post::published()
                     ->orderBy('published_at','desc')
                     ->paginate(6);
+
+        return view('welcome', compact('posts'));
+    }
+
+    // Posts listesi sayfası
+    public function posts()
+    {
+        $posts = Post::published()
+                    ->with(['user', 'categories'])
+                    ->orderBy('published_at','desc')
+                    ->paginate(12);
 
         return view('posts.index', compact('posts'));
     }
@@ -29,14 +41,15 @@ class PostController extends Controller
     // Admin panel için post listesi
     public function admin()
     {
-        $posts = Post::orderBy('created_at','desc')->paginate(10);
+        $posts = Post::with(['user', 'categories'])->latest()->paginate(10);
         return view('admin.posts.index', compact('posts'));
     }
 
     // Yeni post oluşturma formu
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = Category::all();
+        return view('admin.posts.create', compact('categories'));
     }
 
     //Yeni post kaydetme
@@ -46,15 +59,23 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'excerpt' =>'nullable|string|max:500',
+            'categories' => 'nullable|array',
+            'categories.*' => 'exists:categories,id',
         ]);
 
-        Post::create([
+        $post = Post::create([
             'title' => $request->input('title'),
             'content' => $request->input('content'),
             'excerpt' => $request->input('excerpt'),
             'is_published' => $request->boolean('is_published'),
             'published_at' => $request->boolean('is_published') ? now() : null,
+            'user_id' => auth()->id() ?? 1, // Geçici olarak 1, sonra auth middleware eklenecek
         ]);
+
+        // Kategorileri ekle
+        if ($request->has('categories')) {
+            $post->categories()->sync($request->input('categories'));
+        }
 
         return redirect()->route('admin.posts.index')
                          ->with('success','Post başarıyla oluşturuldu');
@@ -63,7 +84,8 @@ class PostController extends Controller
     // Post düzenleme formu
     public function edit(Post $post)
     {
-        return view('admin.posts.edit', compact('post'));
+        $categories = Category::all();
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     // Post güncelleme
@@ -73,6 +95,8 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'excerpt' => 'nullable|string|max:500',
+            'categories' => 'nullable|array',
+            'categories.*' => 'exists:categories,id',
         ]);
 
         $post->update([
@@ -82,6 +106,9 @@ class PostController extends Controller
             'is_published' => $request->boolean('is_published'),
             'published_at' => $request->boolean('is_published') && !$post->is_published ? now() : $post->published_at,
         ]);
+
+        // Kategorileri güncelle
+        $post->categories()->sync($request->input('categories', []));
 
         return redirect()->route('admin.posts.index')
                          ->with('success','Post başarıyla güncellendi');

@@ -28,6 +28,6 @@ class Category extends Model
     //Post ilişkisi (many-to-many)
     public function posts()
     {
-        return $this->belongsMany(Post::class, 'post_categories');
+        return $this->belongsToMany(Post::class, 'post_categories');
     }
 }
