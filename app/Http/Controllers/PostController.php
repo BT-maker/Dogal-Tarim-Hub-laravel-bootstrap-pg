@@ -19,14 +19,47 @@ class PostController extends Controller
     }
 
     // Posts listesi sayfası
-    public function posts()
+    public function posts(Request $request)
     {
-        $posts = Post::published()
-                    ->with(['user', 'categories'])
-                    ->orderBy('published_at','desc')
-                    ->paginate(12);
+        $query = Post::published()->with(['user', 'categories']);
 
-        return view('posts.index', compact('posts'));
+        // Arama işlevselliği
+        if ($request->filled('search')) {
+            $searchTerm = $request->get('search');
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('title', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('excerpt', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('content', 'LIKE', "%{$searchTerm}%");
+            });
+        }
+
+        // Kategori filtreleme
+        if ($request->filled('category')) {
+            $categoryId = $request->get('category');
+            $query->whereHas('categories', function($q) use ($categoryId) {
+                $q->where('categories.id', $categoryId);
+            });
+        }
+
+        // Sıralama
+        $sortBy = $request->get('sort', 'newest');
+        switch ($sortBy) {
+            case 'oldest':
+                $query->orderBy('published_at', 'asc');
+                break;
+            case 'popular':
+                // Gelecekte view count eklenebilir
+                $query->orderBy('published_at', 'desc');
+                break;
+            default: // newest
+                $query->orderBy('published_at', 'desc');
+                break;
+        }
+
+        $posts = $query->paginate(12)->appends($request->query());
+        $categories = Category::all();
+
+        return view('posts.index', compact('posts', 'categories'));
     }
 
     // Tekil post görüntüleme

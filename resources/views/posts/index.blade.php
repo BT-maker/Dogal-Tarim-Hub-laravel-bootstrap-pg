@@ -17,28 +17,62 @@
                 <div class="d-flex gap-2">
                     <div class="dropdown">
                         <button class="btn btn-outline-organic dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-filter me-1"></i>Filtrele
+                            <i class="fas fa-filter me-1"></i>
+                            @if(request('sort'))
+                                @switch(request('sort'))
+                                    @case('oldest')
+                                        En Eski
+                                        @break
+                                    @case('popular')
+                                        En Popüler
+                                        @break
+                                    @default
+                                        En Yeni
+                                @endswitch
+                            @else
+                                Filtrele
+                            @endif
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-calendar me-2"></i>En Yeni</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-calendar-check me-2"></i>En Eski</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-eye me-2"></i>En Popüler</a></li>
+                            <li><a class="dropdown-item {{ !request('sort') || request('sort') == 'newest' ? 'active' : '' }}" 
+                                   href="{{ request()->fullUrlWithQuery(['sort' => 'newest']) }}">
+                                <i class="fas fa-calendar me-2"></i>En Yeni</a></li>
+                            <li><a class="dropdown-item {{ request('sort') == 'oldest' ? 'active' : '' }}" 
+                                   href="{{ request()->fullUrlWithQuery(['sort' => 'oldest']) }}">
+                                <i class="fas fa-calendar-check me-2"></i>En Eski</a></li>
+                            <li><a class="dropdown-item {{ request('sort') == 'popular' ? 'active' : '' }}" 
+                                   href="{{ request()->fullUrlWithQuery(['sort' => 'popular']) }}">
+                                <i class="fas fa-eye me-2"></i>En Popüler</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
                         <button class="btn btn-outline-organic dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-tags me-1"></i>Kategori
+                            <i class="fas fa-tags me-1"></i>
+                            @if(request('category'))
+                                {{ $categories->find(request('category'))->name ?? 'Kategori' }}
+                            @else
+                                Kategori
+                            @endif
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Tüm Kategoriler</a></li>
+                            <li><a class="dropdown-item {{ !request('category') ? 'active' : '' }}" 
+                                   href="{{ request()->fullUrlWithQuery(['category' => null]) }}">
+                                Tüm Kategoriler</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-tractor me-2"></i>Organik Tarım Teknikleri</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-apple-alt me-2"></i>Sebze & Meyve Yetiştiriciliği</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-certificate me-2"></i>Organik Sertifikasyon</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-chart-line me-2"></i>Pazarlama & Satış</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-recycle me-2"></i>Sürdürülebilirlik</a></li>
+                            @foreach($categories as $category)
+                                <li><a class="dropdown-item {{ request('category') == $category->id ? 'active' : '' }}" 
+                                       href="{{ request()->fullUrlWithQuery(['category' => $category->id]) }}">
+                                    <span class="badge me-2" style="background-color: {{ $category->color }}; width: 12px; height: 12px;"></span>
+                                    {{ $category->name }}
+                                </a></li>
+                            @endforeach
                         </ul>
                     </div>
+                    @if(request('category') || request('sort') || request('search'))
+                        <a href="{{ route('posts.index') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-times me-1"></i>Temizle
+                        </a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -47,20 +81,91 @@
     <!-- Search Bar -->
     <div class="row mb-4">
         <div class="col-lg-8 mx-auto">
-            <div class="input-group shadow-sm">
-                <span class="input-group-text bg-white border-end-0">
-                    <i class="fas fa-search text-muted"></i>
-                </span>
-                <input type="text" class="form-control border-start-0" placeholder="Yazılarda ara..." id="searchInput">
-                <button class="btn btn-organic" type="button">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
+            <form method="GET" action="{{ route('posts.index') }}">
+                <!-- Mevcut filtreleri korumak için hidden inputlar -->
+                @if(request('category'))
+                    <input type="hidden" name="category" value="{{ request('category') }}">
+                @endif
+                @if(request('sort'))
+                    <input type="hidden" name="sort" value="{{ request('sort') }}">
+                @endif
+                
+                <div class="input-group shadow-sm">
+                    <span class="input-group-text bg-white border-end-0">
+                        <i class="fas fa-search text-muted"></i>
+                    </span>
+                    <input type="text" 
+                           name="search" 
+                           class="form-control border-start-0" 
+                           placeholder="Yazılarda ara..." 
+                           value="{{ request('search') }}">
+                    <button class="btn btn-organic" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
     @if($posts->count() > 0)
         <!-- Posts Grid -->
+        <!-- Filtreleme ve Arama Durumu -->
+        @if(request('search') || request('category') || request('sort'))
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="alert alert-info d-flex align-items-center">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <div>
+                            @if(request('search'))
+                                <strong>"{{ request('search') }}"</strong> için arama sonuçları
+                                @if(request('category') || request('sort'))
+                                    <span class="text-muted">
+                                        (
+                                        @if(request('category'))
+                                            {{ $categories->find(request('category'))->name ?? 'Kategori' }} kategorisinde
+                                        @endif
+                                        @if(request('sort'))
+                                            @if(request('category')) - @endif
+                                            @switch(request('sort'))
+                                                @case('oldest')
+                                                    en eski sıralama
+                                                    @break
+                                                @case('popular')
+                                                    popülerlik sıralaması
+                                                    @break
+                                                @default
+                                                    en yeni sıralama
+                                            @endswitch
+                                        @endif
+                                        )
+                                    </span>
+                                @endif
+                            @else
+                                Filtreli sonuçlar:
+                                @if(request('category'))
+                                    <strong>{{ $categories->find(request('category'))->name ?? 'Kategori' }}</strong> kategorisi
+                                @endif
+                                @if(request('sort'))
+                                    @if(request('category')) - @endif
+                                    @switch(request('sort'))
+                                        @case('oldest')
+                                            <strong>En eski</strong> sıralama
+                                            @break
+                                        @case('popular')
+                                            <strong>Popülerlik</strong> sıralaması
+                                            @break
+                                        @default
+                                            <strong>En yeni</strong> sıralama
+                                    @endswitch
+                                @endif
+                            @endif
+                            <span class="badge bg-primary ms-2">{{ $posts->total() }} sonuç</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+        
         <div class="row g-4 mb-5">
             @foreach($posts as $post)
                 <div class="col-lg-6 col-xl-4">
@@ -167,17 +272,38 @@
         @endif
     @else
         <!-- Empty State -->
-        <div class="text-center py-5">
-            <div class="mb-4">
-                <i class="fas fa-newspaper display-1 text-muted"></i>
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center py-5">
+                    <div class="empty-state">
+                        @if(request('search') || request('category') || request('sort'))
+                            <i class="fas fa-search display-1 text-muted mb-4"></i>
+                            <h3 class="text-muted mb-3">Arama kriterlerinize uygun yazı bulunamadı</h3>
+                            <p class="text-muted mb-4">
+                                @if(request('search'))
+                                    "<strong>{{ request('search') }}</strong>" için sonuç bulunamadı.
+                                @endif
+                                Farklı arama terimleri veya filtreler deneyebilirsiniz.
+                            </p>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a href="{{ route('posts.index') }}" class="btn btn-organic">
+                                    <i class="fas fa-times me-2"></i>Filtreleri Temizle
+                                </a>
+                                <a href="{{ route('home') }}" class="btn btn-outline-organic">
+                                    <i class="fas fa-home me-2"></i>Ana Sayfaya Dön
+                                </a>
+                            </div>
+                        @else
+                            <i class="fas fa-seedling display-1 text-muted mb-4"></i>
+                            <h3 class="text-muted mb-3">Henüz yazı bulunmuyor</h3>
+                            <p class="text-muted mb-4">İlk organik tarım yazısı için sabırsızlanıyoruz!</p>
+                            <a href="{{ route('home') }}" class="btn btn-organic">
+                                <i class="fas fa-home me-2"></i>Ana Sayfaya Dön
+                            </a>
+                        @endif
+                    </div>
+                </div>
             </div>
-            <h3 class="text-muted mb-3">Henüz yazı bulunmuyor</h3>
-            <p class="text-muted mb-4">
-                Organik tarım dünyasından ilk yazıyı yazmaya ne dersiniz?
-            </p>
-            <a href="{{ route('admin.posts.create') }}" class="btn btn-organic btn-lg">
-                <i class="fas fa-plus-circle me-2"></i>İlk Yazıyı Yaz
-            </a>
         </div>
     @endif
 
@@ -208,12 +334,6 @@ document.getElementById('backToTop').addEventListener('click', function() {
     });
 });
 
-// Search functionality (basic)
-document.getElementById('searchInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        // Here you would implement search functionality
-        console.log('Searching for:', this.value);
-    }
-});
+// Search functionality is now handled by the form submission
 </script>
 @endsection
