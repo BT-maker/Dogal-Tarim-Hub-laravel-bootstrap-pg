@@ -1,6 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
-@section('title','Admin Panel · Yazı Yönetimi - Yeşil Toprak')
+@section('title','Yazı Yönetimi - Yeşil Toprak')
+@section('page-title','Yazı Yönetimi')
 
 @section('content')
 <!-- Admin Header -->
@@ -9,11 +10,11 @@
         <div class="col-md-8">
             <div class="d-flex align-items-center mb-3">
                 <div class="admin-icon me-3">
-                    <i class="bi bi-shield-check"></i>
+                    <i class="fas fa-shield-alt"></i>
                 </div>
                 <div>
                     <h1 class="h2 mb-1" style="color: var(--primary-green);">
-                        <i class="bi bi-journal-text me-2"></i>Yazı Yönetimi
+                        <i class="fas fa-edit me-2"></i>Yazı Yönetimi
                     </h1>
                     <p class="text-muted mb-0">Organik tarım blog yazılarınızı yönetin</p>
                 </div>
@@ -21,7 +22,7 @@
         </div>
         <div class="col-md-4 text-md-end">
             <a href="{{ route('admin.posts.create') }}" class="btn btn-organic">
-                <i class="bi bi-plus-circle me-2"></i>Yeni Yazı Ekle
+                <i class="fas fa-plus-circle me-2"></i>Yeni Yazı Ekle
             </a>
         </div>
     </div>
@@ -30,7 +31,7 @@
 @if(session('success'))
     <div class="alert alert-success border-0 shadow-sm mb-4" style="background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);">
         <div class="d-flex align-items-center">
-            <i class="bi bi-check-circle-fill me-3" style="color: var(--accent-green); font-size: 1.2rem;"></i>
+            <i class="fas fa-check-circle me-3" style="color: var(--accent-green); font-size: 1.2rem;"></i>
             <div>
                 <strong>Başarılı!</strong> {{ session('success') }}
             </div>
@@ -43,7 +44,7 @@
     <div class="col-md-3">
         <div class="stats-card">
             <div class="stats-icon">
-                <i class="bi bi-journal-text"></i>
+                <i class="fas fa-edit"></i>
             </div>
             <div class="stats-content">
                 <h3>{{ $posts->total() }}</h3>
@@ -54,7 +55,7 @@
     <div class="col-md-3">
         <div class="stats-card">
             <div class="stats-icon" style="background: var(--accent-green);">
-                <i class="bi bi-eye"></i>
+                <i class="fas fa-eye"></i>
             </div>
             <div class="stats-content">
                 <h3>{{ $posts->where('published_at', '!=', null)->count() }}</h3>
@@ -65,7 +66,7 @@
     <div class="col-md-3">
         <div class="stats-card">
             <div class="stats-icon" style="background: #ffc107;">
-                <i class="bi bi-pencil-square"></i>
+                <i class="fas fa-edit"></i>
             </div>
             <div class="stats-content">
                 <h3>{{ $posts->where('published_at', null)->count() }}</h3>
@@ -76,10 +77,9 @@
     <div class="col-md-3">
         <div class="stats-card">
             <div class="stats-icon" style="background: #6f42c1;">
-                <i class="bi bi-tags"></i>
+                <i class="fas fa-tags"></i>
             </div>
             <div class="stats-content">
-                <h3>{{ \App\Models\Category::count() }}</h3>
                 <p>Kategori</p>
             </div>
         </div>
@@ -92,16 +92,16 @@
         <div class="row align-items-center">
             <div class="col-md-6">
                 <h5 class="mb-0" style="color: var(--primary-green);">
-                    <i class="bi bi-list-ul me-2"></i>Yazı Listesi
+                    <i class="fas fa-list me-2"></i>Yazı Listesi
                 </h5>
             </div>
             <div class="col-md-6 text-md-end">
                 <div class="d-flex gap-2 justify-content-md-end">
                     <button class="btn btn-outline-secondary btn-sm">
-                        <i class="bi bi-funnel me-1"></i>Filtrele
+                        <i class="fas fa-filter me-1"></i>Filtrele
                     </button>
                     <button class="btn btn-outline-secondary btn-sm">
-                        <i class="bi bi-download me-1"></i>Dışa Aktar
+                        <i class="fas fa-download me-1"></i>Dışa Aktar
                     </button>
                 </div>
             </div>
@@ -114,32 +114,32 @@
                 <tr>
                     <th>
                         <div class="d-flex align-items-center">
-                            <i class="bi bi-journal me-2"></i>Başlık
+                            <i class="fas fa-file-alt me-2"></i>Başlık
                         </div>
                     </th>
                     <th>
                         <div class="d-flex align-items-center">
-                            <i class="bi bi-person me-2"></i>Yazar
+                            <i class="fas fa-user me-2"></i>Yazar
                         </div>
                     </th>
                     <th>
                         <div class="d-flex align-items-center">
-                            <i class="bi bi-tags me-2"></i>Kategoriler
+                            <i class="fas fa-tags me-2"></i>Kategoriler
                         </div>
                     </th>
                     <th>
                         <div class="d-flex align-items-center">
-                            <i class="bi bi-circle me-2"></i>Durum
+                            <i class="fas fa-circle me-2"></i>Durum
                         </div>
                     </th>
                     <th>
                         <div class="d-flex align-items-center">
-                            <i class="bi bi-calendar me-2"></i>Tarih
+                            <i class="fas fa-calendar me-2"></i>Tarih
                         </div>
                     </th>
                     <th>
                         <div class="d-flex align-items-center">
-                            <i class="bi bi-gear me-2"></i>İşlemler
+                            <i class="fas fa-cog me-2"></i>İşlemler
                         </div>
                     </th>
                 </tr>
@@ -158,7 +158,7 @@
                         <td>
                             <div class="d-flex align-items-center">
                                 <div class="author-avatar me-2">
-                                    <i class="bi bi-person"></i>
+                                    <i class="fas fa-user"></i>
                                 </div>
                                 <div>
                                     <div class="fw-medium">{{ $post->user->name ?? 'Bilinmiyor' }}</div>
@@ -185,11 +185,11 @@
                         <td>
                             @if($post->is_published)
                                 <span class="status-badge status-published">
-                                    <i class="bi bi-check-circle me-1"></i>Yayında
+                                    <i class="fas fa-check-circle me-1"></i>Yayında
                                 </span>
                             @else
                                 <span class="status-badge status-draft">
-                                    <i class="bi bi-pencil me-1"></i>Taslak
+                                    <i class="fas fa-edit me-1"></i>Taslak
                                 </span>
                             @endif
                         </td>
@@ -201,11 +201,11 @@
                         </td>
                         <td>
                             <div class="action-buttons">
-                                <a href="{{ route('post.show', $post) }}" class="btn btn-outline-info btn-sm" target="_blank" title="Görüntüle">
-                                    <i class="bi bi-eye"></i>
+                                <a href="{{ route('posts.show', $post) }}" class="btn btn-outline-info btn-sm" title="Görüntüle">
+                                    <i class="fas fa-eye"></i>
                                 </a>
                                 <a href="{{ route('admin.posts.edit', $post) }}" class="btn btn-outline-primary btn-sm" title="Düzenle">
-                                    <i class="bi bi-pencil"></i>
+                                    <i class="fas fa-edit"></i>
                                 </a>
                                 <form action="{{ route('admin.posts.destroy', $post) }}" method="POST" class="d-inline">
                                     @csrf
@@ -213,7 +213,7 @@
                                     <button type="submit" class="btn btn-outline-danger btn-sm" 
                                             onclick="return confirm('Bu yazıyı silmek istediğinizden emin misiniz?')" 
                                             title="Sil">
-                                        <i class="bi bi-trash"></i>
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
                             </div>
@@ -227,7 +227,7 @@
                                 <h5 class="text-muted">Henüz yazı bulunmuyor</h5>
                                 <p class="text-muted mb-3">İlk organik tarım yazınızı oluşturmaya başlayın!</p>
                                 <a href="{{ route('admin.posts.create') }}" class="btn btn-organic">
-                                    <i class="bi bi-plus-circle me-2"></i>İlk Yazıyı Oluştur
+                                    <i class="fas fa-plus-circle me-2"></i>İlk Yazıyı Oluştur
                                 </a>
                             </div>
                         </td>

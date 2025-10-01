@@ -1,19 +1,23 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Yeşil Toprak - Organik Tarım Blog')</title>
+    
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Organic Theme CSS -->
+    
+    <!-- Custom CSS -->
     <link href="{{ asset('css/organic-theme.css') }}" rel="stylesheet">
+    
+    @yield('styles')
     <style>
         :root {
             --primary-green: #2D5016;
@@ -152,44 +156,38 @@
     <nav class="navbar navbar-expand-lg navbar-organic">
         <div class="container">
             <a class="navbar-brand" href="{{ route('home') }}">
-                <i class="bi bi-flower2"></i>
+                <i class="fas fa-seedling"></i>
                 Yeşil Toprak
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars text-white"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('home') }}">
-                            <i class="bi bi-house-door me-1"></i>Anasayfa
+                            <i class="fas fa-home me-1"></i>Anasayfa
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('posts.index') }}">
-                            <i class="bi bi-journal-text me-1"></i>Yazılar
+                            <i class="fas fa-newspaper me-1"></i>Yazılar
                         </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-tags me-1"></i>Kategoriler
+                            <i class="fas fa-tags me-1"></i>Kategoriler
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Organik Tarım Teknikleri</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-apple me-2"></i>Sebze & Meyve Yetiştiriciliği</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-award me-2"></i>Organik Sertifikasyon</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-graph-up me-2"></i>Pazarlama & Satış</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-recycle me-2"></i>Sürdürülebilirlik</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Organik Tarım Teknikleri</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-apple-alt me-2"></i>Sebze & Meyve Yetiştiriciliği</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-award me-2"></i>Organik Sertifikasyon</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-chart-line me-2"></i>Pazarlama & Satış</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-recycle me-2"></i>Sürdürülebilirlik</a></li>
                         </ul>
                     </li>
                 </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.posts.index') }}">
-                            <i class="bi bi-gear me-1"></i>Admin
-                        </a>
-                    </li>
-                </ul>
+
             </div>
         </div>
     </nav>
@@ -199,7 +197,7 @@
     <section class="hero-section">
         <div class="container">
             <div class="row align-items-center hero-content">
-                <div class="col-lg-8">
+                <div class="col-lg-8 col-md-12 text-center text-lg-start">
                     <h1 class="display-4 fw-bold mb-4">
                         Organik Tarımın <span style="color: var(--warm-beige);">Dijital Adresi</span>
                     </h1>
@@ -207,17 +205,17 @@
                         Sürdürülebilir tarım teknikleri, organik sertifikasyon süreçleri ve doğal yaşam hakkında 
                         uzman görüşleri ve pratik bilgiler.
                     </p>
-                    <div class="d-flex gap-3">
+                    <div class="d-flex gap-3 justify-content-center justify-content-lg-start flex-wrap">
                         <a href="{{ route('posts.index') }}" class="btn btn-organic">
-                            <i class="bi bi-book me-2"></i>Yazıları Keşfet
+                            <i class="fas fa-book me-2"></i>Yazıları Keşfet
                         </a>
                         <a href="#categories" class="btn btn-outline-light">
-                            <i class="bi bi-arrow-down me-2"></i>Kategoriler
+                            <i class="fas fa-arrow-down me-2"></i>Kategoriler
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-4 text-center">
-                    <i class="bi bi-flower2" style="font-size: 8rem; opacity: 0.3;"></i>
+                <div class="col-lg-4 d-none d-lg-block text-center">
+                    <i class="fas fa-seedling" style="font-size: 8rem; opacity: 0.3;"></i>
                 </div>
             </div>
         </div>
@@ -228,12 +226,12 @@
     <main class="container">
         @if(session('success'))
             <div class="alert alert-success">
-                <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
+                <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
             </div>
         @endif
         @if ($errors->any())
             <div class="alert alert-danger">
-                <i class="bi bi-exclamation-triangle me-2"></i>
+                <i class="fas fa-exclamation-triangle me-2"></i>
                 <ul class="mb-0">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -251,45 +249,45 @@
     <footer class="footer">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 mb-4">
+                <div class="col-lg-4 col-md-6 mb-4">
                     <h5 class="fw-bold mb-3">
-                        <i class="bi bi-flower2 me-2"></i>Yeşil Toprak
+                        <i class="fas fa-seedling me-2"></i>Yeşil Toprak
                     </h5>
                     <p class="mb-3">
                         Organik tarım ve sürdürülebilir yaşam konularında güvenilir bilgi kaynağınız.
                     </p>
                     <div class="d-flex gap-3">
-                        <a href="#" class="text-white"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="text-white"><i class="bi bi-twitter"></i></a>
-                        <a href="#" class="text-white"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="text-white"><i class="bi bi-youtube"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
-                <div class="col-lg-2 mb-4">
+                <div class="col-lg-2 col-md-6 col-6 mb-4">
                     <h6 class="fw-bold mb-3">Kategoriler</h6>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-white-50">Organik Tarım</a></li>
-                        <li><a href="#" class="text-white-50">Sebze Yetiştirme</a></li>
-                        <li><a href="#" class="text-white-50">Sertifikasyon</a></li>
-                        <li><a href="#" class="text-white-50">Pazarlama</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Organik Tarım</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Sebze Yetiştirme</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Sertifikasyon</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Pazarlama</a></li>
                     </ul>
                 </div>
-                <div class="col-lg-3 mb-4">
+                <div class="col-lg-3 col-md-6 col-6 mb-4">
                     <h6 class="fw-bold mb-3">Hızlı Linkler</h6>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-white-50">Hakkımızda</a></li>
-                        <li><a href="#" class="text-white-50">İletişim</a></li>
-                        <li><a href="#" class="text-white-50">Gizlilik Politikası</a></li>
-                        <li><a href="#" class="text-white-50">Kullanım Şartları</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Hakkımızda</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">İletişim</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Gizlilik Politikası</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Kullanım Şartları</a></li>
                     </ul>
                 </div>
-                <div class="col-lg-3 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <h6 class="fw-bold mb-3">Bülten</h6>
                     <p class="text-white-50 mb-3">Yeni yazılarımızdan haberdar olun</p>
                     <div class="input-group">
                         <input type="email" class="form-control" placeholder="E-posta adresiniz">
                         <button class="btn btn-organic" type="button">
-                            <i class="bi bi-send"></i>
+                            <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
                 </div>
@@ -298,7 +296,7 @@
             <div class="text-center">
                 <p class="mb-0 text-white-50">
                     © {{ date('Y') }} Yeşil Toprak. Tüm hakları saklıdır. 
-                    <i class="bi bi-heart-fill text-danger"></i> ile yapıldı.
+                    <i class="fas fa-heart text-danger"></i> ile yapıldı.
                 </p>
             </div>
         </div>
