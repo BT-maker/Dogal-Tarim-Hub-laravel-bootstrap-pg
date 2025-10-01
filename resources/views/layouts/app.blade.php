@@ -187,13 +187,7 @@
                         </ul>
                     </li>
                 </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.posts.index') }}">
-                            <i class="fas fa-cog me-1"></i>Admin
-                        </a>
-                    </li>
-                </ul>
+
             </div>
         </div>
     </nav>

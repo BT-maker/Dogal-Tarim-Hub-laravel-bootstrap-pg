@@ -18,6 +18,7 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        'is_active',
     ];
 
     protected $hidden = [
@@ -29,6 +30,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return[
             'email_verified_at' => 'datetime',
+            'is_active' => 'boolean',
         ];
     }
 

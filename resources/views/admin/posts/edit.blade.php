@@ -1,6 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title','Yazıyı Düzenle - Yeşil Toprak')
+@section('page-title','Yazıyı Düzenle')
 
 @section('content')
 <!-- Admin Header -->
