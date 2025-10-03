@@ -68,7 +68,9 @@
         }
         
         .hero-section {
-            background: linear-gradient(135deg, var(--accent-green) 0%, var(--light-green) 100%);
+            /* Top layer gradient + bottom layer background image */
+            background-size: cover;
+            background-position: center;
             color: white;
             padding: 4rem 0;
             margin-bottom: 3rem;
@@ -79,12 +81,8 @@
         .hero-section::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            opacity: 0.3;
+            inset: 0;
+            pointer-events: none;
         }
         
         .hero-content {
@@ -195,6 +193,7 @@
     <!-- Hero Section (only on homepage) -->
     @if(request()->routeIs('home'))
     <section class="hero-section">
+        <img src="https://www.fortuneturkey.com/wp-content/uploads/2018/10/organik-tarim-destegi-basvurularinda-son-gun-24-mart-58882-1932017165034.jpg" alt="Hero Background" class="position-absolute top-0 start-0 w-100 h-100" style="object-fit: cover; opacity: 0.35;">
         <div class="container">
             <div class="row align-items-center hero-content">
                 <div class="col-lg-8 col-md-12 text-center text-lg-start">
