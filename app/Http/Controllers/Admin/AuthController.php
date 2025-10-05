@@ -67,14 +67,14 @@ class AuthController extends Controller
 
         // Generate JWT token
         $adminData = $admin->getJWTData();
-        \Log::info('Admin data for JWT:', $adminData);
+        \Illuminate\Support\Facades\Log::info('Admin data for JWT:', $adminData);
         
         $token = $this->jwtService->generateToken($adminData);
-        \Log::info('Generated JWT token:', ['token' => $token]);
+        \Illuminate\Support\Facades\Log::info('Generated JWT token:', ['token' => $token]);
         
         // Test token validation immediately
         $validationResult = $this->jwtService->validateToken($token);
-        \Log::info('Token validation result:', ['result' => $validationResult]);
+        \Illuminate\Support\Facades\Log::info('Token validation result:', ['result' => $validationResult]);
 
         // Store JWT token in cookie (24 hours) - simplified for testing
         $cookie = cookie('admin_jwt_token', $token, 60 * 24, '/', null, false, false);
@@ -104,21 +104,21 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        \Log::info('Admin logout initiated');
+        \Illuminate\Support\Facades\Log::info('Admin logout initiated');
         
         // Clear admin session
         session()->forget(['admin_logged_in', 'admin_jwt_token', 'admin_user']);
         session()->flush();
         
-        \Log::info('Session cleared');
+        \Illuminate\Support\Facades\Log::info('Session cleared');
 
         // Clear JWT cookie
         $cookie = cookie('admin_jwt_token', '', -1, '/', null, false, false);
-        \Log::info('JWT cookie cleared');
+        \Illuminate\Support\Facades\Log::info('JWT cookie cleared');
 
         // Return JSON response for AJAX requests
         if ($request->expectsJson() || $request->ajax()) {
-            \Log::info('Logout - returning JSON response');
+            \Illuminate\Support\Facades\Log::info('Logout - returning JSON response');
             return response()->json([
                 'success' => true,
                 'message' => 'Başarıyla çıkış yaptınız.',
@@ -126,7 +126,7 @@ class AuthController extends Controller
             ])->cookie($cookie);
         }
         
-        \Log::info('Logout - redirecting to login page');
+        \Illuminate\Support\Facades\Log::info('Logout - redirecting to login page');
         return redirect()->route('admin.login')->with('success', 'Başarıyla çıkış yaptınız.')->cookie($cookie);
     }
 

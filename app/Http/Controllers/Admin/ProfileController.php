@@ -13,24 +13,25 @@ class ProfileController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:admin');
+        $this->middleware('jwt.auth');
     }
 
-    public function show()
+    public function show(Request $request)
     {
-        $admin = auth('admin')->user();
+        $admin = $request->admin_user;
         return view('admin.profile.show', compact('admin'));
     }
 
-    public function edit()
+    public function edit(Request $request)
     {
-        $admin = auth('admin')->user();
+        $admin = $request->admin_user;
         return view('admin.profile.edit', compact('admin'));
     }
 
     public function update(Request $request)
     {
-        $admin = auth('admin')->user();
+        /** @var AdminUser $admin */
+        $admin = $request->admin_user;
         
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',

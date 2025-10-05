@@ -24,14 +24,14 @@ class JWTAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
-        \Log::info('JWT Middleware - Starting authentication check for URL: ' . $request->url());
+        \Illuminate\Support\Facades\Log::info('JWT Middleware - Starting authentication check for URL: ' . $request->url());
         
         // Çerezden veya session'dan JWT token'ı al
         $cookieToken = $request->cookie('admin_jwt_token');
         $sessionToken = session('admin_jwt_token');
         $token = $cookieToken ?? $sessionToken;
         
-        \Log::info('JWT Middleware - Token sources:', [
+        \Illuminate\Support\Facades\Log::info('JWT Middleware - Token sources:', [
             'cookie_token' => $cookieToken ? 'exists (length: ' . strlen($cookieToken) . ')' : 'null',
             'session_token' => $sessionToken ? 'exists (length: ' . strlen($sessionToken) . ')' : 'null',
             'final_token' => $token ? 'exists (length: ' . strlen($token) . ')' : 'null',
@@ -40,56 +40,56 @@ class JWTAuth
         ]);
         
         if (!$token) {
-            \Log::error('JWT Middleware - No token found in cookie or session');
+            \Illuminate\Support\Facades\Log::error('JWT Middleware - No token found in cookie or session');
             return $this->redirectToLogin($request);
         }
 
         // Token'ı doğrula ve kullanıcı bilgilerini al
-        \Log::info('JWT Middleware - Validating token...');
+        \Illuminate\Support\Facades\Log::info('JWT Middleware - Validating token...');
         $userData = $this->jwtService->validateToken($token);
-        \Log::info('JWT Middleware - Token validation result:', ['userData' => $userData]);
+        \Illuminate\Support\Facades\Log::info('JWT Middleware - Token validation result:', ['userData' => $userData]);
         
         if (!$userData) {
-            \Log::error('JWT Middleware - Token validation failed', ['token_preview' => substr($token, 0, 50) . '...']);
+            \Illuminate\Support\Facades\Log::error('JWT Middleware - Token validation failed', ['token_preview' => substr($token, 0, 50) . '...']);
             return $this->redirectToLogin($request);
         }
 
         // Token süresi dolmuş mu kontrol et
-        \Log::info('JWT Middleware - Checking token expiration...');
+        \Illuminate\Support\Facades\Log::info('JWT Middleware - Checking token expiration...');
         if ($this->jwtService->isTokenExpired($token)) {
-            \Log::error('JWT Middleware - Token is expired');
+            \Illuminate\Support\Facades\Log::error('JWT Middleware - Token is expired');
             return $this->redirectToLogin($request);
         }
 
         // Kullanıcı ID'sini payload'dan al
         $adminUserId = $userData['id'] ?? null;
-        \Log::info('JWT Middleware - Admin user ID from token:', ['admin_user_id' => $adminUserId]);
+        \Illuminate\Support\Facades\Log::info('JWT Middleware - Admin user ID from token:', ['admin_user_id' => $adminUserId]);
         
         if (!$adminUserId) {
-            \Log::error('JWT Middleware - No admin user ID in token payload');
+            \Illuminate\Support\Facades\Log::error('JWT Middleware - No admin user ID in token payload');
             return $this->redirectToLogin($request);
         }
 
         // Admin kullanıcısını veritabanından al
-        \Log::info('JWT Middleware - Finding admin user in database...');
+        \Illuminate\Support\Facades\Log::info('JWT Middleware - Finding admin user in database...');
         $adminUser = AdminUser::find($adminUserId);
         
         if (!$adminUser) {
-            \Log::error('JWT Middleware - Admin user not found in database', ['admin_user_id' => $adminUserId]);
+            \Illuminate\Support\Facades\Log::error('JWT Middleware - Admin user not found in database', ['admin_user_id' => $adminUserId]);
             return $this->redirectToLogin($request);
         }
         
         if (!$adminUser->is_active) {
-            \Log::error('JWT Middleware - Admin user is not active', ['admin_user_id' => $adminUserId]);
+            \Illuminate\Support\Facades\Log::error('JWT Middleware - Admin user is not active', ['admin_user_id' => $adminUserId]);
             return $this->redirectToLogin($request);
         }
 
         // Rol kontrolü - payload'dan rol bilgisini al
         $userRole = $userData['role'] ?? null;
-        \Log::info('JWT Middleware - User role from token:', ['role' => $userRole]);
+        \Illuminate\Support\Facades\Log::info('JWT Middleware - User role from token:', ['role' => $userRole]);
         
         if (!$userRole || !in_array($userRole, ['admin', 'editor', 'moderator'])) {
-            \Log::error('JWT Middleware - Invalid user role', ['role' => $userRole]);
+            \Illuminate\Support\Facades\Log::error('JWT Middleware - Invalid user role', ['role' => $userRole]);
             return $this->redirectToLogin($request);
         }
 
@@ -99,7 +99,7 @@ class JWTAuth
             'admin_role' => $userRole
         ]);
         
-        \Log::info('JWT Middleware - Authentication successful, proceeding to next middleware');
+        \Illuminate\Support\Facades\Log::info('JWT Middleware - Authentication successful, proceeding to next middleware');
         return $next($request);
     }
 

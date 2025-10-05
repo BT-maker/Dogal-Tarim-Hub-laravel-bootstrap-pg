@@ -208,7 +208,7 @@
                             <div class="mb-3">
                                 @if($post->categories->count() > 0)
                                     @foreach($post->categories->take(3) as $category)
-                                        <span class="badge-category me-1" style="background-color: {{ $category->color }};">
+                                        <span class="badge-category me-1" style="background-color: {{ $category->color }}"></span>
                                             {{ $category->name }}
                                         </span>
                                     @endforeach
