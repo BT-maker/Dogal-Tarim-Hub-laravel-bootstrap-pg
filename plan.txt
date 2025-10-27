@@ -49,8 +49,8 @@ Geliştirme Süresi: 6-8 hafta (MVP)
 Öncelik: YÜKSEK
 - ✅ Auth sistemi (Tamamlandı)
 - 🔄 Kategori sistemi (5 ana kategori)
-- 🔄 Post-User ilişkisi (yazar sistemi)
-- 🔄 Post-Category many-to-many ilişkisi
+- ✅ Post-User ilişkisi (yazar sistemi) (Tamamlandı)
+- ✅ Post-Category many-to-many ilişkisi (Tamamlandı)
 - 🔄 Temel admin paneli geliştirme
 - 🔄 Frontend tasarım (organik tema)
 
@@ -88,7 +88,7 @@ Mevcut Tablolar:
 ✅ categories (boş - doldurulacak)
 
 Eklenecek Tablolar:
-🔄 post_categories (many-to-many)
+✅ post_categories (many-to-many) (Tamamlandı)
 🔄 tags (name, slug)
 🔄 post_tags (many-to-many)
 🔄 comments (post_id, user_id, content)
@@ -106,9 +106,9 @@ Eklenecek Tablolar:
 - Duyuru sistemi
 
 🎯 MVP Hedefleri (6-8 hafta)
-1. ✅ Fonksiyonel auth sistemi
+1. ✅ Fonksiyonel auth sistemi (Tamamlandı)
 2. 🔄 5 ana kategori ile içerik yönetimi
-3. 🔄 Yazar sistemi (post-user ilişkisi)
+3. ✅ Yazar sistemi (post-user ilişkisi) (Tamamlandı)
 4. 🔄 Temel arama ve filtreleme
 5. 🔄 Mobil uyumlu organik tarım teması
 6. 🔄 Gelişmiş admin paneli
