@@ -7,10 +7,17 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\PageController;
 
 Route::get('/', [PostController::class, 'index'])->name('home');
 Route::get('/posts', [PostController::class, 'posts'])->name('posts.index');
 Route::get('/post/{post:slug}',[PostController::class, 'show'])->name('post.show');
+
+// Static Pages
+Route::get('/hakkimizda', [PageController::class, 'about'])->name('page.about');
+Route::get('/iletisim', [PageController::class, 'contact'])->name('page.contact');
+Route::get('/gizlilik-politikasi', [PageController::class, 'privacy'])->name('page.privacy');
+Route::get('/kullanim-sartlari', [PageController::class, 'terms'])->name('page.terms');
 
 // Admin Authentication Routes (without middleware)
 Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
