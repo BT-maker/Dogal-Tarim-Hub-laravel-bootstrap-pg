@@ -274,10 +274,10 @@
                 <div class="col-lg-3 col-md-6 col-6 mb-4">
                     <h6 class="fw-bold mb-3">Hızlı Linkler</h6>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Hakkımızda</a></li>
-                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">İletişim</a></li>
-                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Gizlilik Politikası</a></li>
-                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Kullanım Şartları</a></li>
+                        <li class="mb-2"><a href="{{ route('page.about') }}" class="text-white-50 text-decoration-none">Hakkımızda</a></li>
+                        <li class="mb-2"><a href="{{ route('page.contact') }}" class="text-white-50 text-decoration-none">İletişim</a></li>
+                        <li class="mb-2"><a href="{{ route('page.privacy') }}" class="text-white-50 text-decoration-none">Gizlilik Politikası</a></li>
+                        <li class="mb-2"><a href="{{ route('page.terms') }}" class="text-white-50 text-decoration-none">Kullanım Şartları</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-4">
