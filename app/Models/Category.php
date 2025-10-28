@@ -2,32 +2,64 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Category extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'name',
         'slug',
         'description',
-        'color',
-        'icon'
+        'parent_id',
+        'is_active',
     ];
 
-    // otomatik slug oluşturma
-    public function setNameAttribute($value)
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
     {
-        $this->attributes['name'] = $value;
-        $this->attributes['slug'] = str::slug($value);
+        static::creating(function ($category) {
+            $category->slug = Str::slug($category->name);
+        });
+
+        static::updating(function ($category) {
+            $category->slug = Str::slug($category->name);
+        });
     }
 
-    //Post ilişkisi (many-to-many)
+    /**
+     * Get the posts for the category.
+     */
     public function posts()
     {
         return $this->belongsToMany(Post::class, 'post_categories');
+    }
+
+    /**
+     * Get the parent category.
+     */
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
+    /**
+     * Get the child categories.
+     */
+    public function children()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
     }
 }
