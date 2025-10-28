@@ -5,135 +5,107 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of categories
+     * Display a listing of the resource.
      */
     public function index()
     {
-        $categories = Category::withCount('posts')->orderBy('name')->paginate(15);
+        $categories = Category::with('parent')->latest()->paginate(15);
         return view('admin.categories.index', compact('categories'));
     }
 
     /**
-     * Show the form for creating a new category
+     * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('admin.categories.create');
+        $categories = Category::where('is_active', true)->get();
+        return view('admin.categories.create', compact('categories'));
     }
 
     /**
-     * Store a newly created category
+     * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255|unique:categories,name',
-            'description' => 'nullable|string|max:500',
-            'color' => 'nullable|string|max:7',
-            'is_active' => 'boolean'
+            'description' => 'nullable|string',
+            'parent_id' => 'nullable|exists:categories,id',
         ]);
 
-        $category = Category::create([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name),
-            'description' => $request->description,
-            'color' => $request->color ?? '#28a745',
-            'is_active' => $request->boolean('is_active', true)
-        ]);
+        Category::create($request->all());
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Kategori başarıyla oluşturuldu!',
-            'category' => $category
-        ]);
+        return redirect()->route('admin.categories.index')
+                         ->with('success', 'Kategori başarıyla oluşturuldu.');
     }
 
     /**
-     * Display the specified category
+     * Display the specified resource.
      */
     public function show(Category $category)
     {
-        $category->load(['posts' => function($query) {
-            $query->latest()->take(10);
-        }]);
-        
         return view('admin.categories.show', compact('category'));
     }
 
     /**
-     * Show the form for editing the specified category
+     * Show the form for editing the specified resource.
      */
     public function edit(Category $category)
     {
-        return view('admin.categories.edit', compact('category'));
+        $categories = Category::where('is_active', true)->where('id', '!=', $category->id)->get();
+        return view('admin.categories.edit', compact('category', 'categories'));
     }
 
     /**
-     * Update the specified category
+     * Update the specified resource in storage.
      */
     public function update(Request $request, Category $category)
     {
         $request->validate([
             'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
-            'description' => 'nullable|string|max:500',
-            'color' => 'nullable|string|max:7',
-            'is_active' => 'boolean'
+            'description' => 'nullable|string',
+            'parent_id' => 'nullable|exists:categories,id',
         ]);
 
-        $category->update([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name),
-            'description' => $request->description,
-            'color' => $request->color ?? $category->color,
-            'is_active' => $request->boolean('is_active', true)
-        ]);
+        $category->update($request->all());
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Kategori başarıyla güncellendi!',
-            'category' => $category
-        ]);
+        return redirect()->route('admin.categories.index')
+                         ->with('success', 'Kategori başarıyla güncellendi.');
     }
 
     /**
-     * Remove the specified category
+     * Remove the specified resource from storage.
      */
     public function destroy(Category $category)
     {
-        // Check if category has posts
+        // Check if the category has children
+        if ($category->children()->count() > 0) {
+            return back()->with('error', 'Bu kategorinin alt kategorileri olduğu için silinemez.');
+        }
+
+        // Check if the category has posts
         if ($category->posts()->count() > 0) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Bu kategoriye ait yazılar bulunduğu için silinemez!'
-            ], 422);
+            return back()->with('error', 'Bu kategoriye atanmış yazılar olduğu için silinemez.');
         }
 
         $category->delete();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Kategori başarıyla silindi!'
-        ]);
+        return redirect()->route('admin.categories.index')
+                         ->with('success', 'Kategori başarıyla silindi.');
     }
 
     /**
-     * Toggle category status
+     * Toggle the active status of the category.
      */
     public function toggleStatus(Category $category)
     {
-        $category->update([
-            'is_active' => !$category->is_active
-        ]);
+        $category->is_active = !$category->is_active;
+        $category->save();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Kategori durumu güncellendi!',
-            'is_active' => $category->is_active
-        ]);
+        return back()->with('success', 'Kategori durumu başarıyla güncellendi.');
     }
 }
